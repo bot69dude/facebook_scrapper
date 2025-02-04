@@ -10,16 +10,18 @@ export const getPageByUsername = async (req, res) => {
     let page = await Page.findOne({ username });
 
     if (!page) {
-      const scraper = new FacebookScraper(); // Initialize scraper
+      const scraper = new FacebookScraper();
       await scraper.initialize();
       const pageData = await scraper.scrapePage(username);
       await scraper.close();
 
+      const pageUrl = `https://www.facebook.com/${username}`;
+
       page = await Page.create({
         name: pageData.name,
         username,
-        url: pageData.url || '',
-        facebookId: pageData.facebookId || undefined, 
+        url: pageUrl, // Use constructed URL instead of empty string
+        facebookId: pageData.facebookId || undefined,
         profilePic: pageData.profilePic || '',
         cloudinaryProfilePic: pageData.cloudinaryProfilePic || '',
         category: pageData.category || 'Unknown',
@@ -30,12 +32,14 @@ export const getPageByUsername = async (req, res) => {
         creationDate: new Date()
       });
 
-      await Promise.all(pageData.posts.map(postData => 
-        Post.create({
-          pageId: page._id,
-          ...postData
-        })
-      ));
+      if (pageData.posts && Array.isArray(pageData.posts)) {
+        await Promise.all(pageData.posts.map(postData => 
+          Post.create({
+            pageId: page._id,
+            ...postData
+          })
+        ));
+      }
     }
 
     res.json(page);
@@ -43,7 +47,7 @@ export const getPageByUsername = async (req, res) => {
     console.error("Controller error:", error);
     res.status(500).json({ error: error.message });
   }
-};
+}
 
 export const getPagesByFilters = async (req, res) => {
   try {

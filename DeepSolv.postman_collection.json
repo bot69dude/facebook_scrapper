@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "1afba49d-c5f1-44d4-a768-396c8b93badb",
+		"name": "DeepSolv",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30795891"
+	},
+	"item": [
+		{
+			"name": "Get Page by Username",
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/page/elonmusk1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"page",
+						"elonmusk1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pages by Filters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/pages?minFollowers=1000&maxFollowers=10000&category=Technology&page=1&limit=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"pages"
+					],
+					"query": [
+						{
+							"key": "minFollowers",
+							"value": "1000"
+						},
+						{
+							"key": "maxFollowers",
+							"value": "10000"
+						},
+						{
+							"key": "category",
+							"value": "Technology"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Page Followers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}
